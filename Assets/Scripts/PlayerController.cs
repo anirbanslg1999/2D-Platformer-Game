@@ -5,61 +5,50 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     Animator _animator;
+    Rigidbody2D rb2d;
+
     [SerializeField]
     BoxCollider2D standingCollider;
     [SerializeField]
     BoxCollider2D crouchingCollider;
+    [SerializeField]
+    float moveSpeed;
+    [SerializeField]
+    float jumpHeight;
 
     private float _horizontalInput;
     private float _verticalInput;
 
     Vector3 scale;
     bool isCrouching;
-    // Start is called before the first frame update
     private void Awake()
     {
+        rb2d = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
-
-    // Update is called once per frame
     void Update()
     {
         _horizontalInput = Input.GetAxisRaw("Horizontal");
         _verticalInput = Input.GetAxisRaw("Jump");
-        Debug.Log("Jump : " + _verticalInput);
+
+        PlayerAnnimation(_horizontalInput, _verticalInput);
+        PlayerMovement(_horizontalInput, _verticalInput);
+    }
+    public void PlayerMovement(float _horizontal,float  _vertical)
+    {
+        Vector3 pos = transform.position;
+        pos.x += _horizontal * moveSpeed * Time.deltaTime;
+        transform.position = pos;
+        if(_vertical > 0)
+        {
+            rb2d.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Force);
+        }
+    }
+    public void PlayerAnnimation(float _horizontalInput, float _verticalInput)
+    {
+        // Move animation
         _animator.SetFloat("Speed", Mathf.Abs(_horizontalInput));
-        //Debug.Log("Vertical Input :" + _verticalInput);
-
-        PlayerLookAt(_horizontalInput);
-        if (_verticalInput > 0 && !isCrouching)
-        {
-           // Debug.Log("Jump Again");
-            _animator.SetBool("isJumping", true);
-        }
-        else
-        {
-            _animator.SetBool("isJumping", false);
-        }
-        if (Input.GetButtonDown("Crouch"))
-        {
-            isCrouching = true;
-            CrouchAnimationm(isCrouching);
-        }
-        else if (Input.GetButtonUp("Crouch"))
-        {
-            isCrouching = false;
-            CrouchAnimationm(isCrouching);
-        }
-
-    }
-    void CrouchAnimationm(bool _isCrouching)
-    {
-        _animator.SetBool("isCrouching", isCrouching);
-        standingCollider.enabled = !isCrouching;
-        crouchingCollider.enabled = isCrouching;
-    }
-    void PlayerLookAt(float _horizontalInput)
-    {
+        // Direction to look
         scale = transform.localScale;
         if (_horizontalInput < 0)
         {
@@ -70,5 +59,33 @@ public class PlayerController : MonoBehaviour
             scale.x = Mathf.Abs(scale.x);
         }
         transform.localScale = scale;
+
+        // Jump Animation
+        if (_verticalInput > 0 && !isCrouching)
+        {
+            _animator.SetBool("isJumping", true);
+        }
+        else
+        {
+            _animator.SetBool("isJumping", false);
+        }
+
+        // Crouch Animation
+        if (Input.GetButtonDown("Crouch"))
+        {
+            isCrouching = true;
+            CrouchAnimationm(isCrouching);
+        }
+        else if (Input.GetButtonUp("Crouch"))
+        {
+            isCrouching = false;
+            CrouchAnimationm(isCrouching);
+        }
+    }
+    public void CrouchAnimationm(bool _isCrouching)
+    {
+        _animator.SetBool("isCrouching", isCrouching);
+        standingCollider.enabled = !isCrouching;
+        crouchingCollider.enabled = isCrouching;
     }
 }
