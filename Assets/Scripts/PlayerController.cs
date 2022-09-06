@@ -15,12 +15,14 @@ public class PlayerController : MonoBehaviour
     float moveSpeed;
     [SerializeField]
     float jumpHeight;
+    [SerializeField]
+    LayerMask platformLayermask;
 
     private float _horizontalInput;
     private float _verticalInput;
-
     Vector3 scale;
     bool isCrouching;
+
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -33,21 +35,26 @@ public class PlayerController : MonoBehaviour
 
         PlayerAnnimation(_horizontalInput, _verticalInput);
         PlayerMovement(_horizontalInput, _verticalInput);
+
     }
     public void PlayerMovement(float _horizontal,float  _vertical)
     {
         Vector3 pos = transform.position;
         pos.x += _horizontal * moveSpeed * Time.deltaTime;
         transform.position = pos;
-        if(_vertical > 0)
+        if(_vertical > 0 && IsGrounded())
         {
-            rb2d.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Force);
+            //rb2d.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Force);
+            rb2d.velocity = Vector2.up * jumpHeight;
         }
     }
     public void PlayerAnnimation(float _horizontalInput, float _verticalInput)
     {
+        if (IsGrounded())
+        {
         // Move animation
         _animator.SetFloat("Speed", Mathf.Abs(_horizontalInput));
+        }
         // Direction to look
         scale = transform.localScale;
         if (_horizontalInput < 0)
@@ -87,5 +94,11 @@ public class PlayerController : MonoBehaviour
         _animator.SetBool("isCrouching", isCrouching);
         standingCollider.enabled = !isCrouching;
         crouchingCollider.enabled = isCrouching;
+    }
+
+    private bool IsGrounded()
+    {
+        RaycastHit2D rayCast2d = Physics2D.BoxCast(standingCollider.bounds.center, standingCollider.bounds.size,0f, Vector2.down , 0.1f, platformLayermask);
+        return rayCast2d.collider != null;
     }
 }
