@@ -8,9 +8,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb2d;
 
     [SerializeField]
-    BoxCollider2D standingCollider;
-    [SerializeField]
-    BoxCollider2D crouchingCollider;
+    BoxCollider2D boxCollider2d;
     [SerializeField]
     float moveSpeed;
     [SerializeField]
@@ -81,24 +79,35 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Crouch"))
         {
             isCrouching = true;
+/*            float xOffset = -0.1433218f;
+            float yOffset = 0.595759f;
+
+            float xSize = 0.8866436f;
+            float ySize = 1.291518f;*/
             CrouchAnimationm(isCrouching);
+
         }
         else if (Input.GetButtonUp("Crouch"))
         {
             isCrouching = false;
+/*            float xOffset = 0f;
+            float yOffset = 1f;
+
+            float xSize = 0.6f;
+            float ySize = 2.1f;*/
             CrouchAnimationm(isCrouching);
         }
     }
     public void CrouchAnimationm(bool _isCrouching)
     {
         _animator.SetBool("isCrouching", isCrouching);
-        standingCollider.enabled = !isCrouching;
-        crouchingCollider.enabled = isCrouching;
+/*        boxCollider2d.offset = new Vector2(xOff, yOff);
+        boxCollider2d.size = new Vector2(xSiz, ySiz);*/
     }
 
     private bool IsGrounded()
     {
-        RaycastHit2D rayCast2d = Physics2D.BoxCast(standingCollider.bounds.center, standingCollider.bounds.size,0f, Vector2.down , 0.1f, platformLayermask);
+        RaycastHit2D rayCast2d = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size,0f, Vector2.down , 0.1f, platformLayermask);
         return rayCast2d.collider != null;
     }
 }
