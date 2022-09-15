@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,12 @@ public class PlayerController : MonoBehaviour
 
     private float _horizontalInput;
     private float _verticalInput;
+
+    public void GotKey()
+    {
+        Debug.Log("Got Key");
+    }
+
     Vector3 scale;
     bool isCrouching;
 
