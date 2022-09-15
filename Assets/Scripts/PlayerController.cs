@@ -1,19 +1,17 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     Animator _animator;
-    Rigidbody2D rb2d;
+    Rigidbody2D playerRb2d;
+    BoxCollider2D playerBoxCollider;
 
     [SerializeField]
-    BoxCollider2D boxCollider2d;
-    [SerializeField]
     float moveSpeed;
+
     [SerializeField]
     float jumpHeight;
+    // dont use layermask instead try tags and eventually use enums
     [SerializeField]
     LayerMask platformLayermask;
 
@@ -29,7 +27,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        rb2d = GetComponent<Rigidbody2D>();
+        playerBoxCollider = GetComponent<BoxCollider2D>();
+        playerRb2d = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
     void Update()
@@ -49,7 +48,7 @@ public class PlayerController : MonoBehaviour
         if(_vertical > 0 && IsGrounded())
         {
             //rb2d.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Force);
-            rb2d.velocity = Vector2.up * jumpHeight;
+            playerRb2d.velocity = Vector2.up * jumpHeight;
         }
     }
     public void PlayerAnnimation(float _horizontalInput, float _verticalInput)
@@ -113,11 +112,12 @@ public class PlayerController : MonoBehaviour
 
     private bool IsGrounded()
     {
-        RaycastHit2D rayCast2d = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size,0f, Vector2.down , 0.1f, platformLayermask);
+        RaycastHit2D rayCast2d = Physics2D.BoxCast(playerBoxCollider.bounds.center, playerBoxCollider.bounds.size,0f, Vector2.down , 0.1f, platformLayermask);
         return rayCast2d.collider != null;
     }
     public void GotKey()
     {
         scoreController.IncrementScore(10);
+
     }
 }
