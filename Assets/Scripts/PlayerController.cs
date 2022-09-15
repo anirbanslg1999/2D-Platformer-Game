@@ -17,13 +17,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     LayerMask platformLayermask;
 
+    [SerializeField]
+    ScoreController scoreController;
+
     private float _horizontalInput;
     private float _verticalInput;
 
-    public void GotKey()
-    {
-        Debug.Log("Got Key");
-    }
 
     Vector3 scale;
     bool isCrouching;
@@ -116,5 +115,9 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit2D rayCast2d = Physics2D.BoxCast(boxCollider2d.bounds.center, boxCollider2d.bounds.size,0f, Vector2.down , 0.1f, platformLayermask);
         return rayCast2d.collider != null;
+    }
+    public void GotKey()
+    {
+        scoreController.IncrementScore(10);
     }
 }
