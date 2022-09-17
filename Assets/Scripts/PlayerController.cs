@@ -1,7 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+
 
 public class PlayerController : MonoBehaviour
 {
+    
     Animator _animator;
     Rigidbody2D playerRb2d;
     BoxCollider2D playerBoxCollider;
@@ -12,8 +16,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float jumpHeight;
     // dont use layermask instead try tags and eventually use enums
-    [SerializeField]
-    LayerMask platformLayermask;
+    /*[SerializeField]
+    LayerMask platformLayermask;*/
 
     [SerializeField]
     ScoreController scoreController;
@@ -24,6 +28,7 @@ public class PlayerController : MonoBehaviour
 
     Vector3 scale;
     bool isCrouching;
+    bool isGrounded;
 
     private void Awake()
     {
@@ -31,6 +36,7 @@ public class PlayerController : MonoBehaviour
         playerRb2d = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
+
     void Update()
     {
         _horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -45,7 +51,7 @@ public class PlayerController : MonoBehaviour
         Vector3 pos = transform.position;
         pos.x += _horizontal * moveSpeed * Time.deltaTime;
         transform.position = pos;
-        if(_vertical > 0 && IsGrounded())
+        if(_vertical > 0 && isGrounded)
         {
             //rb2d.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Force);
             playerRb2d.velocity = Vector2.up * jumpHeight;
@@ -53,7 +59,7 @@ public class PlayerController : MonoBehaviour
     }
     public void PlayerAnnimation(float _horizontalInput, float _verticalInput)
     {
-        if (IsGrounded())
+        if (isGrounded)
         {
         // Move animation
         _animator.SetFloat("Speed", Mathf.Abs(_horizontalInput));
@@ -110,14 +116,29 @@ public class PlayerController : MonoBehaviour
         boxCollider2d.size = new Vector2(xSiz, ySiz);*/
     }
 
-    private bool IsGrounded()
+/*    private bool IsGrounded()
     {
-        RaycastHit2D rayCast2d = Physics2D.BoxCast(playerBoxCollider.bounds.center, playerBoxCollider.bounds.size,0f, Vector2.down , 0.1f, platformLayermask);
+        RaycastHit2D rayCast2d = Physics2D.BoxCast(playerBoxCollider.bounds.center, playerBoxCollider.bounds.size, 0f, Vector2.down, 0.1f, platformLayermask);
         return rayCast2d.collider != null;
-    }
+    }*/
     public void GotKey()
     {
         scoreController.IncrementScore(10);
-
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+        isGrounded = true;
+        //Debug.Log("Is Grounded :" + isGrounded);
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+        isGrounded = false;
+        //Debug.Log("Is Grounded :" + isGrounded);
+        }
     }
 }
