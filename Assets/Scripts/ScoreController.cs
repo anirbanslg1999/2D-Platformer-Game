@@ -24,6 +24,6 @@ public class ScoreController : MonoBehaviour
 
     public void SyncScore()
     {
-        scoreText.text = "Score :" + scoreCount.ToString();
+        scoreText.text = "Score : " + scoreCount.ToString();
     }
 }

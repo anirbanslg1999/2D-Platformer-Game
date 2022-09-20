@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    [SerializeField] UIManager uiManager;
     // list of transfrom where to patrol
     [SerializeField] List<Transform> patrolPoints;
     [SerializeField] float patrolSpeed;
@@ -55,6 +56,14 @@ public class EnemyController : MonoBehaviour
                 waitTime -= Time.deltaTime;
             }
             
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.GetComponent<PlayerController>() != null)
+        {
+            uiManager.DecrementHealthCout();
         }
     }
 }
