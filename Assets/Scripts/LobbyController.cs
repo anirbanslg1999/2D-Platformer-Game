@@ -5,9 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class LobbyController : MonoBehaviour
 {
+    [SerializeField] GameObject startPanel;
+    [SerializeField] GameObject levelPanel;
+
+    private void Start()
+    {
+        startPanel.SetActive(true);
+        levelPanel.SetActive(false);
+    }
     public void StartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        startPanel.SetActive(false);
+        levelPanel.SetActive(true);
     }
     public void GameQuit()
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class UIManager : MonoBehaviour
     [Header("Panels")]
     [SerializeField] GameObject gameEndPanel;
     [SerializeField] GameObject inGamePanel;
+    [Header("Gameobjects")]
+    [SerializeField] PlayerController playerController; 
     private int healthCountIndex = 0;
 
     private void Start()
@@ -31,14 +34,20 @@ public class UIManager : MonoBehaviour
         {
             inGamePanel.SetActive(false);
             gameEndPanel.SetActive(true);
+            playerController.enabled = false;
         }
     }
     public void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-    public void QuitGame()
+    public void ReturnToMainMenu()
     {
-        Application.Quit();
+        SceneManager.LoadScene(0);
+    }
+
+    public void GameWinUI()
+    {
+        //Implement game win function
     }
 }
