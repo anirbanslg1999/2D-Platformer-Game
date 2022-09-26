@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d083ad50e1f1d042a3b80784e96b887, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 0}
   patrolPoints:
   - {fileID: 0}
   - {fileID: 0}

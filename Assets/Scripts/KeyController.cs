@@ -16,7 +16,7 @@ public class KeyController : MonoBehaviour
         {
             PlayerController playerController = (PlayerController)collision.gameObject.GetComponent<PlayerController>();
             playerController.GotKey();
-            GetComponent<BoxCollider2D>().isTrigger = true;
+            //GetComponent<BoxCollider2D>().isTrigger = true;
             animator.SetBool("hasPickedUp", true);
             Destroy(gameObject, 0.5f);
         }
