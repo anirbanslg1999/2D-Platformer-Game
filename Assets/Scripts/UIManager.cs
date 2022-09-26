@@ -7,6 +7,8 @@ using System;
 
 public class UIManager : MonoBehaviour
 {
+    private static UIManager instance;
+    public static UIManager Instance { get{ return instance; }}
     [Header("Sprites")]
     [SerializeField] List<Image> healthImg;
     [SerializeField] Sprite healthLostIcon;
@@ -16,6 +18,18 @@ public class UIManager : MonoBehaviour
     [Header("Gameobjects")]
     [SerializeField] PlayerController playerController; 
     private int healthCountIndex = 0;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
@@ -32,11 +46,17 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            inGamePanel.SetActive(false);
-            gameEndPanel.SetActive(true);
-            playerController.enabled = false;
+            GameOverPanel();
         }
     }
+
+    public void GameOverPanel()
+    {
+        inGamePanel.SetActive(false);
+        gameEndPanel.SetActive(true);
+        playerController.enabled = false;
+    }
+
     public void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

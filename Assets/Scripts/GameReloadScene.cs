@@ -14,17 +14,18 @@ public class GameReloadScene : MonoBehaviour
     }
     public void EnterPortal()
     {
-        int totalScene = SceneManager.sceneCountInBuildSettings;
+        /*int totalScene = SceneManager.sceneCountInBuildSettings;
         int currentScene = SceneManager.GetActiveScene().buildIndex;
         Debug.Log("Total Scene :" + totalScene + " current Scene : " + currentScene);
         if(currentScene < totalScene - 2)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
-        else
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }*/
+/*        else
         {
             Debug.Log("Won the Game");
             uiManager.GameWinUI();
-        }
+        }*/
+            LevelManager.Instance.MoveToNextScene();
     }
 }
