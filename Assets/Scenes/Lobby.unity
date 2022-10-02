@@ -427,6 +427,8 @@ MonoBehaviour:
   - Level 3
   - Level 4
   - Level 5
+  levelPanel: {fileID: 816737725}
+  startPanel: {fileID: 2045588039}
 --- !u!4 &315729802
 Transform:
   m_ObjectHideFlags: 0

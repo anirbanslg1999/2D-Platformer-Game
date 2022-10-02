@@ -12,6 +12,8 @@ public class LevelManager : MonoBehaviour
    // [SerializeField] private List<Sprite> levelStatusSprite;
 
     private static LevelManager instance;
+    [SerializeField] GameObject levelPanel;
+    [SerializeField] GameObject startPanel;
     public static LevelManager Instance
     {
         get { return instance; }
@@ -39,7 +41,7 @@ public class LevelManager : MonoBehaviour
     }
     private void Update()
     {
- /*       for (int i = 0; i < LevelName.Length; i++)
+/*        for (int i = 0; i < LevelName.Length; i++)
         {
             SetLevelStatus(LevelName[i], LevelStatus.Locked);
             LevelStatus status = GetLevelStatus(LevelName[i]);
@@ -62,6 +64,8 @@ public class LevelManager : MonoBehaviour
         SetLevelStatus(LevelName[nextSceneIndex], LevelStatus.Unlocked);
         }
         SceneManager.LoadScene(0);
+        startPanel.SetActive(false);
+        levelPanel.SetActive(true);
     }
     public void ChangeIconAndLoad(int currentIndex, int nextIndex)
     {
