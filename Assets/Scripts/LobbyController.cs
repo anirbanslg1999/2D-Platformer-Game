@@ -17,6 +17,7 @@ public class LobbyController : MonoBehaviour
     {
         startPanel.SetActive(false);
         levelPanel.SetActive(true);
+        AudioManager.Instance.PlayEffectSound(SoundTypes.ButtonPressed);
     }
     public void GameQuit()
     {

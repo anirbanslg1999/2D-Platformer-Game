@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     [Header("Panels")]
     [SerializeField] GameObject gameEndPanel;
     [SerializeField] GameObject inGamePanel;
+    [SerializeField] GameObject gameWonPanel;
     [Header("Gameobjects")]
     [SerializeField] PlayerController playerController; 
     private int healthCountIndex = 0;
@@ -54,20 +55,32 @@ public class UIManager : MonoBehaviour
     {
         inGamePanel.SetActive(false);
         gameEndPanel.SetActive(true);
+        gameWonPanel.SetActive(false);
         playerController.enabled = false;
     }
 
     public void ReloadScene()
     {
+        AudioManager.Instance.PlayEffectSound(SoundTypes.ButtonPressed);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public void ReturnToMainMenu()
     {
+        AudioManager.Instance.PlayEffectSound(SoundTypes.ButtonPressed);
         SceneManager.LoadScene(0);
+    }
+
+    public void QuitGame()
+    {
+        AudioManager.Instance.PlayEffectSound(SoundTypes.ButtonPressed);
+        Application.Quit();
     }
 
     public void GameWinUI()
     {
-        //Implement game win function
+        inGamePanel.SetActive(false);
+        gameEndPanel.SetActive(false);
+        gameWonPanel.SetActive(true);
+        playerController.enabled = false;
     }
 }

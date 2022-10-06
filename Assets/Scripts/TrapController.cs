@@ -9,6 +9,7 @@ public class TrapController : MonoBehaviour
         if(collision.gameObject.GetComponent<PlayerController>() != null)
         {
             UIManager.Instance.GameOverPanel();
+            AudioManager.Instance.PlayEffectSound(SoundTypes.GameOver);
         }
     }
 }

@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class KeyController : MonoBehaviour
 {
-    Animator animator;
+    public Animator animator;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.GetComponent<PlayerController>() != null)
+        if (collision.gameObject.TryGetComponent(out PlayerController playerController))
         {
-            PlayerController playerController = (PlayerController)collision.gameObject.GetComponent<PlayerController>();
+
+            //PlayerController playerController = (PlayerController)collision.gameObject.GetComponent<PlayerController>();
             playerController.GotKey();
+            AudioManager.Instance.PlayEffectSound(SoundTypes.Collectable);
             //GetComponent<BoxCollider2D>().isTrigger = true;
             animator.SetBool("hasPickedUp", true);
             Destroy(gameObject, 0.5f);
+            //collision.gameObject.GetComponent<PlayerController>() != null
         }
     }
 }

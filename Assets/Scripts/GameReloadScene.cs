@@ -10,6 +10,7 @@ public class GameReloadScene : MonoBehaviour
         if(collision.gameObject.GetComponent<PlayerController>() != null)
         {
             Invoke("EnterPortal", reloadNextSceneTime);
+            AudioManager.Instance.PlayEffectSound(SoundTypes.Teleport);
         }
     }
     public void EnterPortal()
@@ -26,6 +27,7 @@ public class GameReloadScene : MonoBehaviour
             Debug.Log("Won the Game");
             uiManager.GameWinUI();
         }*/
-            LevelManager.Instance.MoveToNextScene();
+        LevelManager.Instance.MoveToNextScene();
+        UIManager.Instance.GameWinUI();
     }
 }

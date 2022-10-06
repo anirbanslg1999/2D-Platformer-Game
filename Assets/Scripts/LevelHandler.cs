@@ -15,6 +15,7 @@ public class LevelHandler : MonoBehaviour
     {
         button = GetComponent<Button>();
         button.onClick.AddListener(LoadRequiredLevel);
+        
         //DontDestroyOnLoad(gameObject);
         LevelStatus checkStatus = LevelManager.Instance.GetLevelStatus(levelName);
         image.sprite = levelStatusSprite[(int)checkStatus];
@@ -32,12 +33,17 @@ public class LevelHandler : MonoBehaviour
                 break;
             case LevelStatus.Unlocked:
                 SceneManager.LoadScene(levelName);
+                AudioManager.Instance.PlayEffectSound(SoundTypes.ButtonPressed);
+                AudioManager.Instance.PlayBackGroundSound(SoundTypes.GameBG);
                 break;
             case LevelStatus.Completed:
                 SceneManager.LoadScene(levelName);
+                AudioManager.Instance.PlayEffectSound(SoundTypes.ButtonPressed);
+                AudioManager.Instance.PlayBackGroundSound(SoundTypes.GameBG);
                 break;  
             
         }
     }
 
 }
+
